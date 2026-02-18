@@ -3,10 +3,12 @@ import { Roboto_Flex, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { BrandProvider } from "@/components/providers/brand-provider";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 const robotoFlex = Roboto_Flex({
   subsets: ["latin"],
   variable: "--font-sans",
+  axes: ["GRAD", "XOPQ", "XTRA", "YOPQ", "YTAS", "YTDE", "YTFI", "YTLC", "YTUC", "wdth", "opsz"],
 });
 
 
@@ -35,14 +37,14 @@ export default function RootLayout({
       <body className="antialiased">
         <ThemeProvider
           attribute="class"
-          defaultTheme="light"
+          defaultTheme="dark"
           enableSystem={false}  
           storageKey="far-theme"
           enableColorScheme={true}
           disableTransitionOnChange
         >
             <BrandProvider>
-    {children}
+    <TooltipProvider>{children}</TooltipProvider>
   </BrandProvider>
         </ThemeProvider>
       </body>
