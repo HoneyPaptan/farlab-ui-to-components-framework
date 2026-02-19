@@ -1,6 +1,6 @@
 Screenshots in dark and light mode of different screens and components with FarLab dark and light theme and Typography:
-<img width="2549" height="1274" alt="Screenshot from 2026-02-19 17-31-26" src="https://github.com/user-attachments/assets/b74369c1-748f-4a18-b275-75217cbe814a" />
-<img width="2549" height="1274" alt="Screenshot from 2026-02-19 17-31-03" src="https://github.com/user-attachments/assets/ac2b2672-983b-43c7-8d40-709364e1cb7d" />
+<img width="2560" height="1440" alt="Screenshot from 2026-02-19 20-35-36" src="https://github.com/user-attachments/assets/a307abd8-7992-4c58-b03c-2faa875eeb14" />
+<img width="2560" height="1440" alt="Screenshot from 2026-02-19 20-35-28" src="https://github.com/user-attachments/assets/731fa24f-c411-4417-9a07-c251b936c240" />
 <img width="2551" height="1331" alt="Screenshot from 2026-02-18 21-15-06" src="https://github.com/user-attachments/assets/8b5b0d03-42d7-44ad-b182-0ae87a901a88" />
 <img width="2551" height="1331" alt="Screenshot from 2026-02-18 21-15-00" src="https://github.com/user-attachments/assets/fefa0b0a-a38e-4aa4-9c36-42cab16e18a8" />
 <img width="2551" height="1331" alt="Screenshot from 2026-02-18 21-14-56" src="https://github.com/user-attachments/assets/c722b6b1-bd27-45d2-8964-cf9c100f8646" />
