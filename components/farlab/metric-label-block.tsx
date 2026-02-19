@@ -15,10 +15,10 @@ export interface MetricLabelBlockProps {
 export function MetricLabelBlock({ label, sublabel }: MetricLabelBlockProps) {
   return (
     <div className="flex flex-col gap-1 items-start justify-center flex-1 min-w-0">
-      <p className="text-sm-regular text-card-foreground w-full leading-5">
+      <p className="text-base-regular text-card-foreground w-full leading-5">
         {label}
       </p>
-      <p className="text-xs-regular text-muted-foreground w-full leading-4">
+      <p className="text-sm-regular text-muted-foreground w-full leading-4">
         {sublabel}
       </p>
     </div>

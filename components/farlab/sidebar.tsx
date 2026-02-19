@@ -29,7 +29,7 @@ export function Sidebar({
   className,
 }: SidebarProps) {
   return (
-    <aside className={cn("flex flex-col h-full w-[255px] shrink-0 border-r border-sidebar-border", className)}>
+    <aside className={cn("flex flex-col h-full w-[300px] shrink-0 border-r border-sidebar-border", className)}>
       <SidebarHeader />
       <SidebarNav routes={routes} />
       <SidebarFooter

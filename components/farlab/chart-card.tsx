@@ -1,9 +1,11 @@
 import { Card, CardContent } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 import { JobsAreaChart, type JobsDataPoint } from "./jobs-area-chart";
 
 export interface ChartCardProps {
   title?: string;
   data?: JobsDataPoint[];
+  className?: string;
 }
 
 /**
@@ -16,13 +18,14 @@ export interface ChartCardProps {
 export function ChartCard({
   title = "Jobs per hour (24h)",
   data,
+  className,
 }: ChartCardProps) {
   return (
-    <Card className="flex flex-col flex-1 min-w-0 bg-card rounded-[14px] pt-4 pb-5 overflow-hidden h-[287px] border-0 shadow-none gap-2">
-      <CardContent className="flex flex-col gap-2 p-0 flex-1 min-h-0">
+    <Card className={cn("flex flex-col flex-1 min-w-0 bg-card rounded-[14px] pt-4 pb-5 overflow-hidden h-full border-0 shadow-none gap-2", className)}>
+      <CardContent className="flex flex-col gap-4 p-0 flex-1 min-h-0">
         {/* Card title */}
         <div className="flex flex-col items-start justify-center px-5 shrink-0">
-          <p className="text-sm-medium text-card-foreground w-full">{title}</p>
+          <p className="text-lg-medium text-card-foreground w-full">{title}</p>
         </div>
 
         {/* Chart area — fills remaining height */}

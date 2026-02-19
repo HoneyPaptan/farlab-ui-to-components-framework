@@ -118,10 +118,10 @@ export default function OverviewPage() {
   );
 
   return (
-    <div className="flex min-h-screen w-full bg-background overflow-hidden">
+    <div className="flex h-screen w-full bg-background">
 
       {/* ── Desktop sidebar — hidden on mobile, collapsible on md+ ── */}
-      <div className={`hidden md:flex ${desktopOpen ? "w-[255px]" : "w-0"} shrink-0 transition-all duration-200 overflow-hidden`}>
+      <div className={`hidden md:flex ${desktopOpen ? "w-[300px]" : "w-0"} shrink-0 transition-all duration-200 overflow-hidden`}>
         {sidebarContent}
       </div>
 
@@ -134,7 +134,7 @@ export default function OverviewPage() {
       </Sheet>
 
       {/* ── Main content column ───────────────────────────────────── */}
-      <main className="flex flex-col flex-1 min-w-0 min-h-screen">
+      <main className="flex flex-col flex-1 min-w-0 min-h-0 overflow-hidden">
 
         {/* TopNavbar — toggle opens Sheet on mobile, collapses inline on desktop */}
         <TopNavbar
@@ -149,19 +149,17 @@ export default function OverviewPage() {
           }}
         />
 
-        {/* Scrollable content area */}
-        <div className="flex flex-col gap-3 items-start px-6 pt-4 pb-6 w-full">
+        {/* Content area */}
+        <div className="flex flex-col gap-3 px-6 pt-4 pb-20 w-full flex-1 min-h-0">
 
           {/* PageHeader */}
           <PageHeader title="Overview" />
 
           {/* ── Desktop layout (lg+): 4-col grid, 2 rows ─────────────────
-               Col 1, Row 1 → Stat Card 1
-               Col 2-4, Row 1 → Stat Cards 2, 3, 4
-               Col 1, Row 2 → Live Metrics  (same width as col 1 above)
-               Col 2-4, Row 2 → Chart       (spans 3 cols) */}
-          <div className="hidden lg:grid grid-cols-4 gap-3 w-full">
-            {/* Row 1 — 4 stat cards */}
+               Row 1 auto  → 4 stat cards (natural content height, unconstrained)
+               Row 2 1fr   → MetricsCard (col 1) + ChartCard (cols 2-4) fills rest */}
+          <div className="hidden lg:grid grid-cols-4 grid-rows-[auto_1fr] gap-3 w-full flex-1 min-h-0">
+            {/* Row 1 — 4 stat cards: auto row, no height constraint */}
             {STAT_CARDS.map((card) => (
               <StatCard
                 key={card.title}
@@ -171,14 +169,14 @@ export default function OverviewPage() {
               />
             ))}
 
-            {/* Row 2 — MetricsCard (col 1) */}
-            <div className="flex">
-              <MetricsCard metrics={LIVE_METRICS} className="w-full" />
+            {/* Row 2 — MetricsCard (col 1): top-aligned, 75% of the 1fr row */}
+            <div className="flex items-start min-h-0 overflow-hidden">
+              <MetricsCard metrics={LIVE_METRICS} className="w-full h-[75%]" />
             </div>
 
-            {/* Row 2 — ChartCard (cols 2-4) */}
-            <div className="col-span-3 flex">
-              <ChartCard title="Jobs per hour (24h)" data={CHART_DATA} />
+            {/* Row 2 — ChartCard (cols 2-4): same alignment and height */}
+            <div className="col-span-3 flex items-start min-h-0 overflow-hidden">
+              <ChartCard title="Jobs per hour (24h)" data={CHART_DATA} className="h-[75%]" />
             </div>
           </div>
 

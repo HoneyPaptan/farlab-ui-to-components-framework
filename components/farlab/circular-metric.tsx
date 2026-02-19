@@ -19,10 +19,10 @@ export interface CircularMetricProps {
   className?: string;
 }
 
-const RADIUS = 22;
+const RADIUS = 28;
 const STROKE = 4;
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
-const SIZE = 56; // matches Figma 56×56
+const SIZE = 70; // bumped from 56 for better visual weight
 
 /**
  * SVG-based circular progress indicator.

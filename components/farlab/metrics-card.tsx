@@ -53,17 +53,17 @@ const DEFAULT_METRICS: LiveMetric[] = [
 
 export function MetricsCard({ metrics = DEFAULT_METRICS, className }: MetricsCardProps & { className?: string }) {
   return (
-    <Card className={cn("flex flex-col bg-card rounded-[14px] pt-4 pb-5 overflow-hidden h-[287px] shrink-0 border-0 shadow-none gap-4", className ?? "w-[243px]")}>
+    <Card className={cn("flex flex-col bg-card rounded-[14px] pt-4 pb-5 overflow-hidden h-full border-0 shadow-none gap-4", className ?? "w-[243px]")}>
       <CardContent className="flex flex-col gap-4 p-0 flex-1">
         {/* Card title */}
         <div className="flex flex-col items-start justify-center px-5 shrink-0">
-          <p className="text-sm-medium text-card-foreground w-full">
+          <p className="text-lg-medium text-card-foreground w-full">
             Live metrics
           </p>
         </div>
 
-        {/* Metric rows — spaced evenly to fill the card height */}
-        <div className="flex flex-col justify-between flex-1 px-5 min-h-0">
+        {/* Metric rows — evenly spaced, never stretched to extremes */}
+        <div className="flex flex-col justify-evenly flex-1 px-5 min-h-0">
           {metrics.map((metric) => (
             <div
               key={metric.label}
