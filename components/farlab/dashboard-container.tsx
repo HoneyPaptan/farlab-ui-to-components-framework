@@ -38,8 +38,8 @@ export function DashboardContainer({
   return (
     /* Full-viewport shell */
     <div className="flex min-h-screen w-full">
-      {/* Centered, max-width constrained layout */}
-      <div className="flex w-full max-w-[1280px] mx-auto overflow-hidden rounded-[14px]">
+      {/* Full-width layout — no max-width cap */}
+      <div className="flex w-full overflow-hidden">
         {/* Sidebar */}
         <Sidebar {...sidebarProps} />
 

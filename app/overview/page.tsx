@@ -1,3 +1,11 @@
+"use client";
+
+import { useState } from "react";
+import {
+  Sheet,
+  SheetContent,
+  SheetTitle,
+} from "@/components/ui/sheet";
 import {
   Sidebar,
   TopNavbar,
@@ -45,25 +53,28 @@ const STAT_CARDS = [
 ];
 
 // ─── Live metrics (Figma: node 36616:2866) ────────────────────────────────────
-// progressColor omitted → defaults to stroke-primary (CSS variable backed)
+// progressColor uses CSS variable tokens — no hardcoded hex
 const LIVE_METRICS: LiveMetric[] = [
   {
     value: 43,
     centerLabel: "43%",
     label: "Utilization",
     sublabel: "44.6% avg (24h)",
+    progressColor: "var(--chart-2)",
   },
   {
     value: 55,
     centerLabel: "55°C",
     label: "Temperature",
     sublabel: "59.8°C avg (24h)",
+    progressColor: "var(--chart-3)",
   },
   {
     value: 72,
     centerLabel: "72%",
     label: "VRAM usage",
     sublabel: "21385.2 / 29208 GB",
+    progressColor: "var(--chart-4)",
   },
 ];
 
@@ -81,39 +92,100 @@ const CHART_DATA: JobsDataPoint[] = [
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 export default function OverviewPage() {
-  return (
-    /**
-     * Outer shell: full-viewport height, centred container.
-     * max-w-[1280px] → stays centred on 1440 / 1920 / 2K.
-     */
-    <div className="flex min-h-screen w-full bg-background">
-      <div className="flex w-full max-w-[1280px] mx-auto overflow-hidden rounded-[14px]">
+  // Desktop: sidebar open by default. Mobile: controlled via Sheet.
+  const [desktopOpen, setDesktopOpen] = useState(true);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
-        {/* ── Sidebar (224px, fixed, border-r) ──────────────────────── */}
-        <Sidebar
-          routes={SIDEBAR_ROUTES}
-          username="xxxmorata"
-          role="Operator account"
-          version="1.0.0"
-          buildDate="1 Feb, 2026"
+  const sidebarContent = (
+    <Sidebar
+      routes={SIDEBAR_ROUTES}
+      username="xxxmorata"
+      role="Operator account"
+      version="1.0.0"
+      buildDate="1 Feb, 2026"
+    />
+  );
+
+  const mobileSidebarContent = (
+    <Sidebar
+      routes={SIDEBAR_ROUTES}
+      username="xxxmorata"
+      role="Operator account"
+      version="1.0.0"
+      buildDate="1 Feb, 2026"
+      className="w-full"
+    />
+  );
+
+  return (
+    <div className="flex min-h-screen w-full bg-background overflow-hidden">
+
+      {/* ── Desktop sidebar — hidden on mobile, collapsible on md+ ── */}
+      <div className={`hidden md:flex ${desktopOpen ? "w-[255px]" : "w-0"} shrink-0 transition-all duration-200 overflow-hidden`}>
+        {sidebarContent}
+      </div>
+
+      {/* ── Mobile sidebar — Sheet drawer ────────────────────────── */}
+      <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
+        <SheetContent side="left" className="w-full p-0 border-r border-sidebar-border">
+          <SheetTitle className="sr-only">Navigation</SheetTitle>
+          {mobileSidebarContent}
+        </SheetContent>
+      </Sheet>
+
+      {/* ── Main content column ───────────────────────────────────── */}
+      <main className="flex flex-col flex-1 min-w-0 min-h-screen">
+
+        {/* TopNavbar — toggle opens Sheet on mobile, collapses inline on desktop */}
+        <TopNavbar
+          statusLabel="Node running"
+          statusVariant="success"
+          onToggleSidebar={() => {
+            if (window.innerWidth < 768) {
+              setMobileOpen((o) => !o);
+            } else {
+              setDesktopOpen((o) => !o);
+            }
+          }}
         />
 
-        {/* ── Main content column (flex-1, fluid) ───────────────────── */}
-        <main className="flex flex-col flex-1 min-w-0 min-h-screen">
+        {/* Scrollable content area */}
+        <div className="flex flex-col gap-3 items-start px-6 pt-4 pb-6 w-full">
 
-          {/* TopNavbar */}
-          <TopNavbar statusLabel="Badge" />
+          {/* PageHeader */}
+          <PageHeader title="Overview" />
 
-          {/* Scrollable content area */}
-          <div className="flex flex-col gap-3 items-start px-6 pt-4 pb-6 w-full">
+          {/* ── Desktop layout (lg+): 4-col grid, 2 rows ─────────────────
+               Col 1, Row 1 → Stat Card 1
+               Col 2-4, Row 1 → Stat Cards 2, 3, 4
+               Col 1, Row 2 → Live Metrics  (same width as col 1 above)
+               Col 2-4, Row 2 → Chart       (spans 3 cols) */}
+          <div className="hidden lg:grid grid-cols-4 gap-3 w-full">
+            {/* Row 1 — 4 stat cards */}
+            {STAT_CARDS.map((card) => (
+              <StatCard
+                key={card.title}
+                title={card.title}
+                value={card.value}
+                subtitle={card.subtitle}
+              />
+            ))}
 
-            {/* PageHeader */}
-            <PageHeader title="Overview" />
+            {/* Row 2 — MetricsCard (col 1) */}
+            <div className="flex">
+              <MetricsCard metrics={LIVE_METRICS} className="w-full" />
+            </div>
 
-            {/* Stat cards row + metrics + chart */}
-            <div className="flex flex-wrap gap-3 items-start w-full">
+            {/* Row 2 — ChartCard (cols 2-4) */}
+            <div className="col-span-3 flex">
+              <ChartCard title="Jobs per hour (24h)" data={CHART_DATA} />
+            </div>
+          </div>
 
-              {/* 4 Stat Cards */}
+          {/* ── Mobile / Tablet layout (below lg) ────────────────────── */}
+          <div className="lg:hidden flex flex-col gap-3 w-full">
+            {/* Stat cards: 1 col on mobile, 2 cols on tablet */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {STAT_CARDS.map((card) => (
                 <StatCard
                   key={card.title}
@@ -122,21 +194,21 @@ export default function OverviewPage() {
                   subtitle={card.subtitle}
                 />
               ))}
+            </div>
 
-              {/* Live Metrics Card (243px fixed) */}
-              <MetricsCard metrics={LIVE_METRICS} />
-
-              {/* Jobs-per-hour Chart Card (flex-1) */}
-              <ChartCard
-                title="Jobs per hour (24h)"
-                data={CHART_DATA}
-              />
-
+            {/* Metrics + Chart: stacked on mobile, side-by-side on sm+ */}
+            <div className="flex flex-col sm:flex-row gap-3 w-full items-stretch">
+              <div className="shrink-0 w-full sm:w-auto">
+                <MetricsCard metrics={LIVE_METRICS} className="w-full sm:w-[243px]" />
+              </div>
+              <div className="flex flex-1 min-w-0">
+                <ChartCard title="Jobs per hour (24h)" data={CHART_DATA} />
+              </div>
             </div>
           </div>
-        </main>
+        </div>
+      </main>
 
-      </div>
     </div>
   );
 }

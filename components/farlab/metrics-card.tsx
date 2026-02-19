@@ -1,4 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 import { CircularMetric } from "./circular-metric";
 import { MetricLabelBlock } from "./metric-label-block";
 
@@ -50,9 +51,9 @@ const DEFAULT_METRICS: LiveMetric[] = [
   },
 ];
 
-export function MetricsCard({ metrics = DEFAULT_METRICS }: MetricsCardProps) {
+export function MetricsCard({ metrics = DEFAULT_METRICS, className }: MetricsCardProps & { className?: string }) {
   return (
-    <Card className="flex flex-col bg-card rounded-[14px] pt-4 pb-5 overflow-hidden w-[243px] h-[287px] shrink-0 border-0 shadow-none gap-4">
+    <Card className={cn("flex flex-col bg-card rounded-[14px] pt-4 pb-5 overflow-hidden h-[287px] shrink-0 border-0 shadow-none gap-4", className ?? "w-[243px]")}>
       <CardContent className="flex flex-col gap-4 p-0 flex-1">
         {/* Card title */}
         <div className="flex flex-col items-start justify-center px-5 shrink-0">

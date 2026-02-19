@@ -8,11 +8,11 @@ export interface DotBadgeProps {
   className?: string;
 }
 
-const dotColour: Record<NonNullable<DotBadgeProps["variant"]>, string> = {
-  default: "bg-muted-foreground",
-  success: "bg-green-500",
-  warning: "bg-yellow-500",
-  destructive: "bg-destructive",
+const dotStyle: Record<NonNullable<DotBadgeProps["variant"]>, string> = {
+  default: "var(--muted-foreground)",
+  success: "var(--chart-2)",
+  warning: "var(--chart-3)",
+  destructive: "var(--destructive)",
 };
 
 export function DotBadge({ label, variant = "default", className }: DotBadgeProps) {
@@ -23,13 +23,11 @@ export function DotBadge({ label, variant = "default", className }: DotBadgeProp
         className
       )}
     >
-      {/* Dot indicator — matches the Figma "Mask" shape (8×12 px) */}
+      {/* Dot indicator — 8×8 rounded circle, colour from CSS variable */}
       <span
         aria-hidden="true"
-        className={cn(
-          "inline-block w-2 h-3 rounded-full shrink-0",
-          dotColour[variant]
-        )}
+        className="inline-block h-2 w-2 rounded-full shrink-0"
+        style={{ backgroundColor: dotStyle[variant] }}
       />
       <span className="text-xs-medium text-muted-foreground whitespace-nowrap">
         {label}

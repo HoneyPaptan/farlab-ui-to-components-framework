@@ -32,7 +32,7 @@ export function SidebarNav({ routes = DEFAULT_ROUTES }: SidebarNavProps) {
     <nav className="flex flex-col flex-1 items-start w-full min-h-0">
       {/* Section wrapper — px-2 py-2.5 matching Figma */}
       <div className="flex flex-col items-start px-2 py-2.5 w-full">
-        <div className="flex flex-col items-start w-full">
+        <div className="flex flex-col items-start gap-0.5 w-full">
           {routes.map((route) => (
             <SidebarNavItem
               key={route.key}

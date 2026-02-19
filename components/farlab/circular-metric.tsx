@@ -11,7 +11,10 @@ export interface CircularMetricProps {
    * Typically the formatted value string, e.g. "43%" or "55°C".
    */
   centerLabel: string;
-  /** Tailwind colour class for the progress arc, e.g. "stroke-primary" */
+  /**
+   * CSS variable string for the progress arc stroke colour.
+   * e.g. "var(--chart-2)". Defaults to "var(--primary)".
+   */
   progressColor?: string;
   className?: string;
 }
@@ -31,7 +34,7 @@ const SIZE = 56; // matches Figma 56×56
 export function CircularMetric({
   value,
   centerLabel,
-  progressColor = "stroke-primary",
+  progressColor = "var(--primary)",
   className,
 }: CircularMetricProps) {
   const clampedValue = Math.min(100, Math.max(0, value));
@@ -68,7 +71,8 @@ export function CircularMetric({
           strokeLinecap="round"
           strokeDasharray={CIRCUMFERENCE}
           strokeDashoffset={offset}
-          className={cn("transition-all duration-500", progressColor)}
+          className="transition-all duration-500"
+          style={{ stroke: progressColor }}
         />
       </svg>
 
