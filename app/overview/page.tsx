@@ -118,10 +118,10 @@ export default function OverviewPage() {
   );
 
   return (
-    <div className="flex h-screen w-full bg-background">
+    <div className="flex min-h-screen lg:h-screen w-full bg-background">
 
-      {/* ── Desktop sidebar — hidden on mobile, collapsible on md+ ── */}
-      <div className={`hidden md:flex ${desktopOpen ? "w-[300px]" : "w-0"} shrink-0 transition-all duration-200 overflow-hidden`}>
+      {/* ── Desktop sidebar — inline only on lg+, hidden below that ── */}
+      <div className={`hidden lg:flex ${desktopOpen ? "w-[300px]" : "w-0"} shrink-0 transition-all duration-200 overflow-hidden`}>
         {sidebarContent}
       </div>
 
@@ -134,14 +134,14 @@ export default function OverviewPage() {
       </Sheet>
 
       {/* ── Main content column ───────────────────────────────────── */}
-      <main className="flex flex-col flex-1 min-w-0 min-h-0 overflow-hidden">
+      <main className="flex flex-col flex-1 min-w-0 lg:min-h-0 lg:overflow-hidden">
 
         {/* TopNavbar — toggle opens Sheet on mobile, collapses inline on desktop */}
         <TopNavbar
           statusLabel="Node running"
           statusVariant="success"
           onToggleSidebar={() => {
-            if (window.innerWidth < 768) {
+            if (window.innerWidth < 1024) {
               setMobileOpen((o) => !o);
             } else {
               setDesktopOpen((o) => !o);
@@ -150,7 +150,7 @@ export default function OverviewPage() {
         />
 
         {/* Content area */}
-        <div className="flex flex-col gap-3 px-6 pt-4 pb-20 w-full flex-1 min-h-0">
+        <div className="flex flex-col gap-3 px-6 pt-4 pb-20 w-full lg:flex-1 lg:min-h-0">
 
           {/* PageHeader */}
           <PageHeader title="Overview" />
@@ -158,7 +158,7 @@ export default function OverviewPage() {
           {/* ── Desktop layout (lg+): 4-col grid, 2 rows ─────────────────
                Row 1 auto  → 4 stat cards (natural content height, unconstrained)
                Row 2 1fr   → MetricsCard (col 1) + ChartCard (cols 2-4) fills rest */}
-          <div className="hidden lg:grid grid-cols-4 grid-rows-[auto_1fr] gap-3 w-full flex-1 min-h-0">
+          <div className="hidden lg:grid grid-cols-4 grid-rows-[auto_1fr] gap-3 w-full lg:flex-1 lg:min-h-0">
             {/* Row 1 — 4 stat cards: auto row, no height constraint */}
             {STAT_CARDS.map((card) => (
               <StatCard
