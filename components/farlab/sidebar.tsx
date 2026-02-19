@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import { SidebarHeader } from "./sidebar-header";
 import { SidebarNav, type SidebarNavRoute } from "./sidebar-nav";
 import { SidebarFooter } from "./sidebar-footer";
@@ -8,6 +9,7 @@ export interface SidebarProps {
   role?: string;
   version?: string;
   buildDate?: string;
+  className?: string;
 }
 
 /**
@@ -24,9 +26,10 @@ export function Sidebar({
   role,
   version,
   buildDate,
+  className,
 }: SidebarProps) {
   return (
-    <aside className="flex flex-col h-full w-[224px] shrink-0 border-r border-sidebar-border">
+    <aside className={cn("flex flex-col h-full w-[255px] shrink-0 border-r border-sidebar-border", className)}>
       <SidebarHeader />
       <SidebarNav routes={routes} />
       <SidebarFooter

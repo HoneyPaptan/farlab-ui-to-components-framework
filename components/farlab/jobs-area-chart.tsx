@@ -80,7 +80,7 @@ export function JobsAreaChart({ data = DEFAULT_DATA }: JobsAreaChartProps) {
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart
           data={data}
-          margin={{ top: 8, right: 0, left: 0, bottom: 0 }}
+          margin={{ top: 8, right: 20, left: 16, bottom: 8 }}
         >
           <defs>
             <linearGradient id="jobsGradient" x1="0" y1="0" x2="0" y2="1">
@@ -108,7 +108,8 @@ export function JobsAreaChart({ data = DEFAULT_DATA }: JobsAreaChartProps) {
             tick={{ fill: "var(--muted-foreground)", fontSize: 12 }}
             tickLine={false}
             axisLine={false}
-            width={44}
+            tickMargin={8}
+            width={48}
             domain={["auto", "auto"]}
           />
 
@@ -117,6 +118,8 @@ export function JobsAreaChart({ data = DEFAULT_DATA }: JobsAreaChartProps) {
             tick={{ fill: "var(--muted-foreground)", fontSize: 12 }}
             tickLine={false}
             axisLine={false}
+            tickMargin={8}
+            padding={{ left: 20, right: 0 }}
             /* Show only 3 ticks: 00:00, 12:00, 23:00 */
             ticks={["00:00", "12:00", "23:00"]}
             interval="preserveStartEnd"

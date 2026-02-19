@@ -24,7 +24,7 @@ export interface StatCardProps {
  */
 export function StatCard({ title, value, subtitle }: StatCardProps) {
   return (
-    <Card className="flex flex-col gap-3 bg-card rounded-[14px] pt-4 pb-5 overflow-hidden w-[243px] shrink-0 border-0 shadow-none">
+    <Card className="flex flex-col gap-3 bg-card rounded-[14px] pt-4 pb-5 overflow-hidden w-full border-0 shadow-none">
       <CardContent className="flex flex-col gap-3 p-0">
         {/* Title */}
         <div className="flex flex-col items-start justify-center px-5">
