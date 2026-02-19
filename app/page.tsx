@@ -29,6 +29,9 @@ export default function Page() {
         </div>
         <div className="flex items-center gap-2">
           <Button asChild>
+            <Link href="/overview">Overview</Link>
+          </Button>
+          <Button asChild>
             <Link href="/dashboard">Dashboard</Link>
           </Button>
           <Button asChild variant="outline">
