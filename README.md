@@ -123,3 +123,93 @@ http://localhost:3000
 - AI used with explicit constraints
 
 - Extendable to future screens without UI drift
+
+---
+
+## 5. FAR Labs Custom Component Library (`/components/farlab/`)
+
+All components were built from scratch using Figma MCP extraction, mapped precisely to Figma node IDs.
+No layout, spacing, or token decisions were made arbitrarily — every value traces back to the design file.
+
+### Atomic Components
+
+| File | Figma Node | Purpose |
+|---|---|---|
+| `sidebar-header.tsx` | `36616:2785` | FAR AI logo — swaps `lightmode-logo.png` / `darkmode-logo.png` via Tailwind `dark:` |
+| `sidebar-nav-item.tsx` | `36616:2791` | Single nav row — active bg, destructive color, separator variant, `gap-0.5` between items |
+| `sidebar-nav.tsx` | `36616:2791` | Maps route array → `SidebarNavItem` list |
+| `sidebar-footer.tsx` | `36616:2810` | Username, role, version, build date — pinned to sidebar bottom |
+| `sidebar.tsx` | `36616:2785` | Full sidebar shell — `w-[255px]`, accepts `className` override for mobile full-width |
+| `navbar-action-button.tsx` | `36616:2827` | Ghost button used for "Restart" / "Pause node" |
+| `top-navbar.tsx` | `36616:2827` | Header bar — `PanelLeft` toggle button, `DotBadge` status, action buttons, `ThemeToggle` |
+| `dot-badge.tsx` | `36616:2829` | Coloured dot + label — uses `style={{ backgroundColor: "var(--chart-N)" }}` (no hardcoded hex) |
+| `page-header.tsx` | `36616:2836` | Section `<h1>` title |
+| `stat-card.tsx` | `36616:2838` | KPI card — title, large value, subtitle; `w-full` so it stretches inside grid columns |
+| `stat-cards-row.tsx` | — | Row wrapper (kept for reuse; layout is now handled directly in the page) |
+| `circular-metric.tsx` | `36616:2866` | SVG ring progress, 56×56 px — `style={{ stroke: progressColor }}` accepts CSS variable strings |
+| `metric-label-block.tsx` | `36616:2866` | Label + sublabel text block aligned next to the ring |
+| `metrics-card.tsx` | `36616:2866` | Live metrics card — three `CircularMetric` + `MetricLabelBlock` rows; accepts `className` prop |
+| `jobs-area-chart.tsx` | `36616:2897` | Recharts `AreaChart` inside shadcn `ChartContainer` — Y-axis aligned to card title via `dx: 20`, `width: 68`; `padding={{ left: 20 }}` on XAxis |
+| `chart-card.tsx` | `36616:2897` | Card shell wrapping `JobsAreaChart`; `flex-1` so it fills remaining row width |
+| `dashboard-container.tsx` | `36616:2785` | Full-width flex shell (no `max-w`, no `mx-auto`) |
+
+### Barrel Export
+
+All components are re-exported from `components/farlab/index.ts` for clean single-import usage:
+
+```ts
+import { Sidebar, TopNavbar, StatCard, MetricsCard, ChartCard, ... } from "@/components/farlab";
+```
+
+---
+
+## 6. Overview Dashboard (`/app/overview/page.tsx`)
+
+### Layout Structure
+
+The page is a `"use client"` component with sidebar toggle state.
+
+#### Desktop (lg+) — 4-column CSS grid, 2 rows
+
+```
+┌──────────────┬──────────────┬──────────────┬──────────────┐
+│  Stat Card 1 │  Stat Card 2 │  Stat Card 3 │  Stat Card 4 │
+├──────────────┼──────────────────────────────────────────────┤
+│ Live Metrics │          Jobs per hour chart (col-span-3)    │
+└──────────────┴──────────────────────────────────────────────┘
+```
+
+Column 1 is identical width for both the first stat card and the live metrics card — matching Figma proportions exactly.
+
+#### Tablet (sm–lg) — 2-column grid for stat cards, stacked or side-by-side for row 2
+
+#### Mobile (< sm) — single column, all cards full-width
+
+### Sidebar Behaviour
+
+| Breakpoint | Behaviour |
+|---|---|
+| `md+` (desktop/tablet) | Inline sidebar, toggles between `w-[255px]` and `w-0` with CSS transition |
+| `< md` (mobile) | shadcn `Sheet` drawer, full-width, slides in from the left |
+
+The `PanelLeft` toggle button in the navbar routes the click to the correct state based on `window.innerWidth`.
+
+### Color Tokens Used
+
+| UI Element | CSS Variable |
+|---|---|
+| Status dot (running) | `var(--chart-2)` |
+| Utilization ring | `var(--chart-2)` |
+| Temperature ring | `var(--chart-3)` |
+| VRAM usage ring | `var(--chart-4)` |
+| Chart line + fill | `var(--primary)` |
+| Muted labels | `var(--muted-foreground)` |
+
+### Key Technical Decisions
+
+- **No hardcoded hex or Tailwind color classes** for dynamic brand colors — all resolved through CSS variables at runtime, enabling full dark/light theme switching with zero JS.
+- **`style={{ stroke }}` on SVG arcs** instead of Tailwind `stroke-*` classes — Tailwind stroke utilities use `currentColor` shorthand which cannot resolve arbitrary CSS variables directly on SVG properties.
+- **`style={{ backgroundColor }}` on dot badge** — same reason; Tailwind `bg-*` utilities don't support `var()` expressions for custom per-instance colors.
+- **Recharts margin + YAxis `dx`** — `margin.left: 0`, `width: 68`, `dx: 20` aligns the Y-axis label left edge to exactly 20px from the card border, matching the card title's `px-5` padding.
+- **`className` prop on `MetricsCard` and `Sidebar`** — allows layout overrides (full-width on mobile) without mutating component internals.
+
