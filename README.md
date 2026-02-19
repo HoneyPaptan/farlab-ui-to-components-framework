@@ -216,3 +216,9 @@ The `PanelLeft` toggle button in the navbar routes the click to the correct stat
 - **Recharts margin + YAxis `dx`** — `margin.left: 0`, `width: 68`, `dx: 20` aligns the Y-axis label left edge to exactly 20px from the card border, matching the card title's `px-5` padding.
 - **`className` prop on `MetricsCard` and `Sidebar`** — allows layout overrides (full-width on mobile) without mutating component internals.
 
+---
+
+## Documentation
+
+- [Framework](/docs/framework.md)
+- [Team Playbook](/docs/team-playbook.md)
